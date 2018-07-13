@@ -69,14 +69,14 @@ def menu_func(self, context):
 					split = sub_box.split(percentage=0.333333333333, align=True)
 					split.label(text="オフセット:")
 					row = split.row(align=True)
-					row.prop(tex_slot, 'color', index=0, text="")
-					row.prop(tex_slot, 'color', index=1, text="")
-					
+					row.prop(tex_slot, 'offset', index=0, text="")
+					row.prop(tex_slot, 'offset', index=1, text="")
+
 					split = sub_box.split(percentage=0.333333333333, align=True)
 					split.label(text="拡大/縮小:")
 					row = split.row(align=True)
-					row.prop(tex_slot, 'color', index=2, text="")
-					row.prop(tex_slot, 'diffuse_color_factor', text="")
+					row.prop(tex_slot, 'scale', index=0, text="")
+					row.prop(tex_slot, 'scale', index=1, text="")
 					
 					row = sub_box.row()
 					row.operator('image.show_image', text="画像を表示", icon='ZOOM_IN').image_name = img.name

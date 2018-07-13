@@ -109,9 +109,12 @@ class export_cm3d2_mate(bpy.types.Operator):
 					if not re.search(r'^assets/texture/', path, re.I):
 						path = "Assets/texture/texture/" + os.path.basename(path)
 					common.write_str(file, path)
-					col = tex_slot.color
-					file.write(struct.pack('<3f', col[0], col[1], col[2]))
-					file.write(struct.pack('<f', tex_slot.diffuse_color_factor))
+					
+					offset = tex_slot.offset
+					file.write(struct.pack('<2f', offset[0], offset[1]))
+					
+					scale = tex_slot.scale
+					file.write(struct.pack('<2f', scale[0], scale[1]))
 				else:
 					common.write_str(file, 'null')
 			elif type == 'col':

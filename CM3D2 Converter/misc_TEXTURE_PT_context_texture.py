@@ -68,15 +68,21 @@ def menu_func(self, context):
 
 					split = sub_box.split(percentage=0.333333333333, align=True)
 					split.label(text="オフセット:")
+					split = split.split(percentage=0.8)
 					row = split.row(align=True)
 					row.prop(tex_slot, 'offset', index=0, text="")
 					row.prop(tex_slot, 'offset', index=1, text="")
+					row = split.row(align=True)
+					row.operator('texture.reset_mapping_offset', text="初期化", icon='MESH_PLANE')
 
 					split = sub_box.split(percentage=0.333333333333, align=True)
 					split.label(text="拡大/縮小:")
+					split = split.split(percentage=0.8)
 					row = split.row(align=True)
 					row.prop(tex_slot, 'scale', index=0, text="")
 					row.prop(tex_slot, 'scale', index=1, text="")
+					row = split.row(align=True)
+					row.operator('texture.reset_mapping_scale', text="初期化", icon='MESH_PLANE')
 					
 					row = sub_box.row()
 					row.operator('image.show_image', text="画像を表示", icon='ZOOM_IN').image_name = img.name
@@ -553,6 +559,36 @@ class auto_set_color_value(bpy.types.Operator):
 		for slot in target_slots:
 			slot.color = average_color[:3]
 			common.set_texture_color(slot)
+		
+		return {'FINISHED'}
+
+class reset_mapping_offset(bpy.types.Operator):
+	bl_idname = 'texture.reset_mapping_offset'
+	bl_label = "初期化"
+	bl_description = "テクスチャのオフセットを初期値にリセットします"
+	bl_options = {'REGISTER', 'UNDO'}
+
+	def execute(self, context):
+		import os.path
+		
+		slot = context.texture_slot
+		slot.offset[0] = 0.0
+		slot.offset[1] = 0.0
+		
+		return {'FINISHED'}
+		
+class reset_mapping_scale(bpy.types.Operator):
+	bl_idname = 'texture.reset_mapping_scale'
+	bl_label = "初期化"
+	bl_description = "テクスチャの拡大/縮小を初期値にリセットします"
+	bl_options = {'REGISTER', 'UNDO'}
+
+	def execute(self, context):
+		import os.path
+		
+		slot = context.texture_slot
+		slot.scale[0] = 1.0
+		slot.scale[1] = 1.0
 		
 		return {'FINISHED'}
 

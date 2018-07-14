@@ -77,8 +77,14 @@ class import_cm3d2_mate(bpy.types.Operator):
 					img.filepath = img['cm3d2_path']
 					img.source = 'FILE'
 					tex.image = img
-					slot.color = struct.unpack('<3f', file.read(4*3))
-					slot.diffuse_color_factor = struct.unpack('<f', file.read(4))[0]
+					offset = struct.unpack('<2f', file.read(4*2))
+					scale = struct.unpack('<2f', file.read(4*2))
+					
+					# OffsetはUnityのTilingに合わせて補正
+					slot.offset[0] = offset[0] + 0.5 * (scale[0] - 1.0)
+					slot.offset[1] = offset[1] + 0.5 * (scale[1] - 1.0)
+					slot.scale[0] = scale[0]
+					slot.scale[1] = scale[1]
 					
 					# tex探し
 					if self.is_replace_cm3d2_tex:

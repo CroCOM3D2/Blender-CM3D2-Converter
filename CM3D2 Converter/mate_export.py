@@ -113,7 +113,7 @@ class export_cm3d2_mate(bpy.types.Operator):
 					offset = tex_slot.offset
 					scale = tex_slot.scale
 					
-					# OffsetはUnityのTiling向けに補正
+					# OffsetはUnityのTilingに合わせて補正
 					file.write(struct.pack('<2f', offset[0] - 0.5 * (scale[0] - 1.0), offset[1] - 0.5 * (scale[1] - 1.0)))
 					file.write(struct.pack('<2f', scale[0], scale[1]))
 				else:

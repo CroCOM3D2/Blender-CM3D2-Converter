@@ -524,6 +524,19 @@ def set_texture_color(slot):
 		else:
 			elements[1].color, elements[2].color = [1, 1, 1, 1], [1, 1, 1, 1]
 
+# export時向け、テクスチャのオフセットおよび拡大/縮小の値をtexture_slotより取得
+def get_exportation_texture_offset_and_scale(texture_slot):
+	offset = texture_slot.offset
+	scale = texture_slot.scale
+	
+	# OffsetはUnityのTilingに合わせて補正
+	return [offset[0] - 0.5 * (scale[0] - 1.0), offset[1] - 0.5 * (scale[1] - 1.0)], scale
+
+# import時向け、テクスチャのオフセットの値を補正値を取得
+def get_importation_texture_offset_and_scale(offset, scale):
+	# OffsetはUnityのTilingに合わせて補正
+	return [offset[0] + 0.5 * (scale[0] - 1.0), offset[1] + 0.5 * (scale[1] - 1.0)], scale
+
 # 必要なエリアタイプを設定を変更してでも取得
 def get_request_area(context, request_type, except_types=['VIEW_3D', 'PROPERTIES', 'INFO', 'USER_PREFERENCES']):
 	request_areas = [(a, a.width * a.height) for a in context.screen.areas if a.type == request_type]

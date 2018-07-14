@@ -491,8 +491,12 @@ class import_cm3d2_model(bpy.types.Operator):
 						tex = context.blend_data.textures.new(tex_data['name'], 'IMAGE')
 						slot.texture = tex
 						if tex_data['type2'] == 'tex2d':
-							slot.color = tex_data['color'][:3]
-							slot.diffuse_color_factor = tex_data['color'][3]
+							offset = tex_data['color'][0:2]
+							scale = tex_data['color'][2:4]
+							offset, scale = common.get_importation_texture_offset_and_scale(offset, scale)
+							slot.offset[0:2] = offset[0:2]
+							slot.scale[0:2] = scale[0:2]
+							
 							img = context.blend_data.images.new(tex_data['name2'], 128, 128)
 							img.filepath = tex_data['path']
 							img['cm3d2_path'] = tex_data['path']

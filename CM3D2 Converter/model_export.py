@@ -577,9 +577,10 @@ class export_cm3d2_model(bpy.types.Operator):
 							if not re.search(r'^assets/texture/', path, re.I):
 								path = "Assets/texture/texture/" + os.path.basename(path)
 							common.write_str(file, path)
-							col = tslot.color
-							file.write(struct.pack('<3f', col[0], col[1], col[2]))
-							file.write(struct.pack('<f', tslot.diffuse_color_factor))
+							
+							offset, scale = common.get_exportation_texture_offset_and_scale(tslot)
+							file.write(struct.pack('<2f', offset[0], offset[1]))
+							file.write(struct.pack('<2f', scale[0], scale[1]))
 						else:
 							common.write_str(file, 'null')
 					else:

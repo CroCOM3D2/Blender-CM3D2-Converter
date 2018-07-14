@@ -110,11 +110,8 @@ class export_cm3d2_mate(bpy.types.Operator):
 						path = "Assets/texture/texture/" + os.path.basename(path)
 					common.write_str(file, path)
 					
-					offset = tex_slot.offset
-					scale = tex_slot.scale
-					
-					# OffsetはUnityのTilingに合わせて補正
-					file.write(struct.pack('<2f', offset[0] - 0.5 * (scale[0] - 1.0), offset[1] - 0.5 * (scale[1] - 1.0)))
+					offset, scale = common.get_exportation_texture_offset_and_scale(tex_slot)
+					file.write(struct.pack('<2f', offset[0], offset[1]))
 					file.write(struct.pack('<2f', scale[0], scale[1]))
 				else:
 					common.write_str(file, 'null')
